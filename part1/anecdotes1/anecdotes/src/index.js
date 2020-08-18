@@ -4,9 +4,21 @@ import ReactDOM from 'react-dom'
 const Button = ({anecdotes, setSelected, selected, setVoted, voted}) => {
   let anecL = anecdotes.length;
   let random = ()=> Math.floor(Math.random()*(anecL));
+  let maxAnecdote = () => {
+    let max = 0;
+    let index=0;
+    for(let i=0; i<anecL; i++){
+      if(voted[i]>max){
+        max=voted[i];
+        index=i;
+      }
+    }
+    return index;
+  }
 
   return (
     <div>
+      <p>Anecdote of the day</p>
       <p>{anecdotes[selected]}</p>
       <p> has {voted[selected]} votes</p>
       <button onClick={()=>
@@ -14,6 +26,10 @@ const Button = ({anecdotes, setSelected, selected, setVoted, voted}) => {
         return (
         setVoted(voted))}}>vote</button>
       <button onClick={()=>setSelected(random())}>next anecdotes</button>
+      <p>Anecdote with most votes </p>
+      <p>{anecdotes[maxAnecdote()]}</p>
+      <p>has {voted[maxAnecdote()]} votes</p>
+
     </div>
   )
 }
@@ -24,11 +40,11 @@ const App = (props) => {
   const newArray = [...sizeArray];
   const [selected, setSelected] = useState(0);
   const [voted, setVoted] = useState(newArray);
+  console.log(voted)
 
 
   return (
     <div>
-      
       <Button anecdotes={anecdotes} setSelected={setSelected} selected={selected} setVoted={setVoted} voted={voted}/>
     </div>
   )
