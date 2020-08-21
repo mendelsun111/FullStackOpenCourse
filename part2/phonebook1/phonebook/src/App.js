@@ -6,12 +6,14 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newPhone, setNewPhone ] = useState('')
   const addName = (event)=>{
     event.preventDefault();
 
     const nameObject = {
         name: newName,
         id:persons.length+1,
+        phone: newPhone,
     }
     console.log(nameObject)
     for(let i=0; i<persons.length;i++){
@@ -30,6 +32,9 @@ const App = () => {
       setNewName(event.target.value);
 
   }
+  const handlePhoneChange = (event) =>{
+      setNewPhone(event.target.value)
+  }
 
   return (
     <div>
@@ -39,6 +44,10 @@ const App = () => {
         <div>
         
           name: <input value={newName} onChange={handleNameChange} />
+          
+        </div>
+        <div>
+            number: <input value={newPhone} onChange={handlePhoneChange}/>
         </div>
         <div>
           <button type="submit">add</button>

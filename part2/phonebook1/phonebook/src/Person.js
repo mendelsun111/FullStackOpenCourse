@@ -1,7 +1,12 @@
 import React from "react"
 
 const Person = ({arg}) => {
-    return <div> {arg.name}</div>
+    return (
+    <div>
+        <div> {arg.name} {arg.phone}</div>
+        
+    </div>
+    )
     
 }
 
