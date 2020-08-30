@@ -17,18 +17,26 @@ const App = () => {
     event.preventDefault();
     const nameObject = {
         name: newName,
-        id:persons.length+1,
         number: newPhone,
     }
+
+    axios
+      .post("http://localhost:3001/persons", nameObject)
+      .then(response=>{
+        setPersons(persons.concat(response.data))
+        setNewName("")
+        setNewPhone("")
+      })
+
     for(let i=0; i<persons.length;i++){
         if(newName===persons[i].name){
             return alert(`${newName} is already added to phonebook`)
         }
     }
-    setPersons(persons.concat(nameObject))
+  
     console.log(persons.concat(nameObject))
-    setNewName("")
-    setNewPhone("")
+ 
+
   }
   const handleNameChange = (event) =>{
       setNewName(event.target.value);
