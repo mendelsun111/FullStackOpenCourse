@@ -3,6 +3,7 @@ import Persons from './Person'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import axios from 'axios'
+import newVariable from './Persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
@@ -20,14 +21,14 @@ const App = () => {
         number: newPhone,
     }
 
-    axios
-      .post("http://localhost:3001/persons", nameObject)
-      .then(response=>{
-        setPersons(persons.concat(response.data))
+    newVariable
+      .create(nameObject)
+      .then(createName=>{
+        setPersons(persons.concat(createName))
         setNewName("")
         setNewPhone("")
       })
-
+   
     for(let i=0; i<persons.length;i++){
         if(newName===persons[i].name){
             return alert(`${newName} is already added to phonebook`)
@@ -51,11 +52,10 @@ const App = () => {
 
   useEffect(()=>{
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response=>{
-        console.log("promise fulfilled")
-        setPersons(response.data)
+    newVariable
+      .getAll()
+      .then(initName=>{
+        setPersons(initName)
       })
     }, [])
 
