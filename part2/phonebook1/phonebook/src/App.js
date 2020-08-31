@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Persons from './Person'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
-import axios from 'axios'
+import './index.css'
 import newVariable from './Persons'
+import Notification from './Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
   const [filter, setFilter] = useState('')
+  const [addedMessage, setAddedMessage ] = useState(null)
 
   const deleteName= (event) =>{
     const p = persons.find(person=>person.id===event)
@@ -43,7 +45,10 @@ const App = () => {
             }
         }
     }
-
+    setAddedMessage(`Added ${newName}`)
+    setTimeout(()=>{
+      setAddedMessage(null)
+    }, 5000)
     
     return newVariable
     .create(nameObject)
@@ -78,6 +83,7 @@ const App = () => {
     <div>
 
       <h2>Phonebook</h2>
+      <Notification message={addedMessage} />
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange}
        newPhone={newPhone} handlePhoneChange={handlePhoneChange}/>
