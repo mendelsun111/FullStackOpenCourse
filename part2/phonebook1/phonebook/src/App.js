@@ -14,6 +14,17 @@ const App = () => {
   const [ newPhone, setNewPhone ] = useState('')
   const [filter, setFilter] = useState('')
 
+  const deleteName= (event) =>{
+    const p = persons.find(person=>person.id===event)
+    if(window.confirm(`Delete ${p.name}`)){
+      newVariable
+        .deletePerson(event) 
+        .then(newResponse=>{
+          setPersons(persons.filter(person=>person.id!==event))
+        })
+    }
+  }
+  console.log(persons)
   const addName = (event)=>{
     event.preventDefault();
     const nameObject = {
@@ -65,10 +76,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange}
-       newPhone={newPhone} handlePhoneChange={handlePhoneChange} />
+       newPhone={newPhone} handlePhoneChange={handlePhoneChange}/>
       <h2>Numbers</h2>
       <ul>
-        <Persons persons={persons} filter={filter} />
+        <Persons persons={persons} filter={filter} deleteName={deleteName}/>
       </ul>
       
     </div>
