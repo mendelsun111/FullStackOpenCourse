@@ -1,15 +1,15 @@
 import React from "react"
 import './index.css'
 
-const Notification = ({message}) => {
+const Notifications = ({message}) => {
     if (message==null){
         return null
     }
     return (
-        <div className="added">
+        <div className="removed">
             {message}
         </div>
     )
 }
 
-export default Notification 
+export default Notifications

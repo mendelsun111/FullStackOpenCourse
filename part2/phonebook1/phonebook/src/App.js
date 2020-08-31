@@ -5,6 +5,7 @@ import PersonForm from './PersonForm'
 import './index.css'
 import newVariable from './Persons'
 import Notification from './Notification'
+import Notifications from './Notifications'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -12,6 +13,7 @@ const App = () => {
   const [ newPhone, setNewPhone ] = useState('')
   const [filter, setFilter] = useState('')
   const [addedMessage, setAddedMessage ] = useState(null)
+  const [addedError, setAddedError] = useState(null)
 
   const deleteName= (event) =>{
     const p = persons.find(person=>person.id===event)
@@ -21,6 +23,13 @@ const App = () => {
         .then(newResponse=>{
           setPersons(persons.filter(person=>person.id!==event))
         })
+        .catch(error=>{
+         setAddedError(`Information of ${p.name} has already been removed from server`)
+          setTimeout(()=>{
+           setAddedError(null)
+         }, 5000)
+        console.log(1)
+       })
     }
   }
   
@@ -84,6 +93,7 @@ const App = () => {
 
       <h2>Phonebook</h2>
       <Notification message={addedMessage} />
+      <Notifications message={addedError} />
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange}
        newPhone={newPhone} handlePhoneChange={handlePhoneChange}/>
