@@ -6,10 +6,7 @@ import axios from 'axios'
 import newVariable from './Persons'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    
-  ]) 
-  
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
   const [filter, setFilter] = useState('')
@@ -24,7 +21,7 @@ const App = () => {
         })
     }
   }
-  console.log(persons)
+  
   const addName = (event)=>{
     event.preventDefault();
     const nameObject = {
@@ -32,22 +29,29 @@ const App = () => {
         number: newPhone,
     }
 
-    newVariable
-      .create(nameObject)
-      .then(createName=>{
-        setPersons(persons.concat(createName))
-        setNewName("")
-        setNewPhone("")
-      })
-   
+
     for(let i=0; i<persons.length;i++){
         if(newName===persons[i].name){
-            return alert(`${newName} is already added to phonebook`)
+            if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+              const filtering = persons.find(n=>n.id===persons[i].id)
+              const newNotes = {...filtering, number: newPhone}
+              return newVariable
+                      .update(persons[i].id, newNotes).then(response=>{
+                      console.log(response)
+                      setPersons(persons.map(person=>person.id!==persons[i].id?person: response))
+                      })
+            }
         }
     }
-  
-    console.log(persons.concat(nameObject))
- 
+
+    
+    return newVariable
+    .create(nameObject)
+    .then(createName=>{
+      setPersons(persons.concat(createName))
+      setNewName("")
+      setNewPhone("")
+    })
 
   }
   const handleNameChange = (event) =>{
